@@ -8,19 +8,6 @@ export const runtime = 'edge';
 
 const app = new Hono().basePath('/api')
 
-app.onError((err, c) => {
-    if( err instanceof HTTPException){
-        err.getResponse();
-    }
-
-    return c.json(
-        {
-            error: err.message + "Internal Server Error"
-        }, 
-        500
-    )
-})
-
 const routes = app.route('/accounts', accounts)
 
 export const GET = handle(app)
