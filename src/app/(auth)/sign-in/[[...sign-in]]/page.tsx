@@ -1,9 +1,38 @@
-import React from 'react'
+import { SignIn, ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
+import { Loader2 } from "lucide-react";
+import Image from "next/image";
 
-function SignIn() {
-  return (
-    <div>SignIn</div>
-  )
+export default function Page() {
+  return <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+    <div className="h-full lg:flex flex-col items-around justify-center px-4">
+      <div className="text-center space-y-4 pt-16">
+          <h1 className="font-bold text-3xl text-[#2E2A47]">
+            Welcome Back
+          </h1>
+          <p className="text-base text-[#7E8CA0]">
+            Log in or Create account to get back to your dashboard!
+          </p>
+      </div>
+      <div className="flex items-start justify-center mt-8">
+        <ClerkLoaded>
+          <SignIn  path="/sign-in"/>
+        </ClerkLoaded>
+        <ClerkLoading>
+          <Loader2 className="w-8 h-8 text-[#3d8ef8] animate-spin"/>
+        </ClerkLoading>
+        
+      </div>
+      
+    </div>
+    <div className="h-full bg-sky-200 hidden lg:flex items-center justify-center">
+        <Image
+          src="/complete-logo.svg"
+          alt="Sign in"
+          width={200}
+          height={200}
+      
+        />
+    </div>
+    
+  </div>
 }
-
-export default SignIn
