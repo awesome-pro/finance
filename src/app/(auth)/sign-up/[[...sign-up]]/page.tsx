@@ -24,7 +24,7 @@ export default function Page() {
       </div>
       
     </div>
-    <div className="h-full bg-sky-200 hidden lg:flex items-center justify-center">
+    <div className="h-full bg-blue-600 hidden lg:flex items-center justify-center">
         <Image
           src="/complete-logo.svg"
           alt="Sign in"
