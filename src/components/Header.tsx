@@ -1,5 +1,9 @@
 import React from 'react'
 import HeaderLogo from './HeaderLogo'
+import Navbar from './Navbar'
+import { UserButton, ClerkLoading, ClerkLoaded } from '@clerk/nextjs'
+import { Loader2 } from 'lucide-react'
+import WelcomeMsg from './WelcomeMsg'
 
 function Header() {
   return (
@@ -8,8 +12,17 @@ function Header() {
             <div className='w-full flex items-center justify-between mb-14'>
                 <div className='flex items-center lg:gap-x-16'>
                     <HeaderLogo/>
+                    <Navbar/>
                 </div>
+               <ClerkLoaded>
+                    <UserButton afterSignOutUrl='/' />
+               </ClerkLoaded>
+               <ClerkLoading>
+                    <Loader2 className='animate-spin'/>
+               </ClerkLoading>
+               
             </div>
+            <WelcomeMsg/>
         </div>
    </header>
   )
