@@ -11,7 +11,7 @@ import {
   } from "@/components/ui/sheet"
 import { useNewAccount } from '../hooks/use-new-account'
 import AccountForm from './account-form';
-import { insertAccountsSchema } from '../../../../db/schema';
+import { insertAccountsSchema } from '../../../db/schema';
 import { useCreateAccount } from '../api/use-create-account';
 
   

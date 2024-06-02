@@ -11,7 +11,7 @@ import {
   } from "@/components/ui/sheet"
 
 
-import { insertCategorySchema } from '../../../../db/schema';
+import { insertCategorySchema } from '../../../db/schema';
 import { useOpenCategory } from '@/features/categories/hooks/use-open-category';
 import { useGetCategory } from '@/features/categories/api/use-get-category';
 import { useEditCategory } from '@/features/categories/api/use-edit-category';
