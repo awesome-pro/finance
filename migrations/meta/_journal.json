@@ -29,6 +29,20 @@
       "when": 1717296240974,
       "tag": "0003_lazy_oracle",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1717340116531,
+      "tag": "0004_condemned_jubilee",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1717351020857,
+      "tag": "0005_hesitant_blue_blade",
+      "breakpoints": true
     }
   ]
 }

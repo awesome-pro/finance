@@ -4,6 +4,8 @@ import { toast } from 'sonner';
 import React, { useEffect, useState } from 'react';
 import NewAccountSheet from '@/features/accounts/components/new-account-sheet';
 import EditAccountSheet from '@/features/accounts/components/edit-account-sheet';
+import NewCategorySheet from '@/features/categories/components/new-category-sheet';
+import EditCategorysheet from '@/features/categories/components/edit-category-sheet';
 import { useMountedState } from 'react-use';
 
 function SheetProvider() {
@@ -29,6 +31,9 @@ function SheetProvider() {
         <>
             <NewAccountSheet />
             <EditAccountSheet/>
+
+            <NewCategorySheet/>
+            <EditCategorysheet/>
         </>
     );
 }

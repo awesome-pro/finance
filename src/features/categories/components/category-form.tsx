@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { insertAccountsSchema } from '../../../../db/schema'
+import { insertCategorySchema } from '../../../../db/schema'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { Trash } from 'lucide-react'
 import { toast } from 'sonner'
 
-const formSchema = insertAccountsSchema.pick({
+const formSchema = insertCategorySchema.pick({
     name: true
 });
 
@@ -23,7 +23,7 @@ type Props = {
     disabled?: boolean;
 }
 
-function AccountForm(
+function CategoryForm(
     {
         id,
         defaultValues,
@@ -40,7 +40,7 @@ function AccountForm(
 
     const handleSubmit = (values: FormValues) => {
         console.log("values are here from form: " + values)
-        toast.info('Creating Account');
+        toast.info('Creating Category');
         onSubmit(values);
     }
 
@@ -63,7 +63,7 @@ function AccountForm(
                         <FormControl>
                             <Input
                             disabled={disabled}
-                            placeholder='e.g. Cash'
+                            placeholder='e.g. Food, Travel...'
                             {...field}
                             />
                         </FormControl>
@@ -77,7 +77,7 @@ function AccountForm(
                 type='submit'
                 onClick={form.handleSubmit(handleSubmit)}
                 >
-                    {id ? "Save Changes" : "Create Account" }
+                    {id ? "Save Changes" : "Create Category" }
                 </Button>
                 
                 {!!id && (
@@ -89,7 +89,7 @@ function AccountForm(
                     type='button'
                     >
                         <Trash className='size-4 mr-2'/>
-                        Delete Account
+                        Delete Category
                     </Button>
                 )}
             </form>
@@ -98,4 +98,4 @@ function AccountForm(
   )
 }
 
-export default AccountForm
+export default CategoryForm
