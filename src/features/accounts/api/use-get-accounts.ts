@@ -8,6 +8,7 @@ export const useGetAccounts = () => {
             const response = await client.api.accounts.$get();
 
             if(!response.ok){
+                console.log("error in getting accounts: " + response.statusText)
                 throw new Error(response.statusText + " - " + response.body);
             }
 

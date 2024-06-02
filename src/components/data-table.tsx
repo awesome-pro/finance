@@ -11,6 +11,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  Row,
 } from "@tanstack/react-table"
 
 import {
@@ -21,6 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -31,23 +33,30 @@ import {
   } from "@/components/ui/dropdown-menu"
 
 import { useState } from "react"
+import { Trash } from "lucide-react"
+import { toast } from "sonner"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  filterKey: string
+  filterKey: string,
+  onDelete: (rows: Row<TData>[]) => void;
+  disabled?: boolean
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  filterKey
+  filterKey,
+  onDelete,
+  disabled
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
         []
     )
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+    const [rowSelection, setRowSelection] = useState({})
 
   const table = useReactTable({
     data,
@@ -59,10 +68,12 @@ export function DataTable<TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+      rowSelection,
     },
   })
 
@@ -77,7 +88,24 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-
+        {
+            table.getFilteredSelectedRowModel().rows.length > 0  && (
+                <Button
+                disabled={disabled}
+                size={'sm'}
+                variant={'outline'}
+                className="ml-auto font-normal test-xs text-red-600"
+                onClick={() => {
+                  toast.info("Deleting...")
+                  onDelete(table.getFilteredSelectedRowModel().rows)
+                  table.resetRowSelection()
+                }}
+                >
+                    <Trash className="size-4 mr-2 bg-f"/>
+                    Delete({table.getFilteredSelectedRowModel().rows.length})
+                </Button>
+            )
+        }
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -151,6 +179,12 @@ export function DataTable<TData, TValue>({
                 </TableBody>
             </Table>
         </div>
+
+        <div className="flex-1 text-sm text-muted-foreground">
+            {table.getFilteredSelectedRowModel().rows.length} of{" "}
+            {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+
 
         <div className="flex items-center justify-end space-x-2 py-4">
         <Button
