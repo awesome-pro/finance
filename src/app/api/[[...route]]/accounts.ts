@@ -46,7 +46,7 @@ const app = new Hono()
             const values = c.req.valid("json");
             console.log("values: ", values);
 
-            if (!auth?.userId || !auth) {
+            if (!auth?.userId) {
                 return c.json({
                     error: "Unauthorized"
                 }, 401)
@@ -55,11 +55,11 @@ const app = new Hono()
             const [data] = await db.insert(accounts).values({
                 id: createId(),
                 userId: auth.userId,
-                name: values.name,
-                plaidId: '' // Add the missing property here
+                ...values,
+                plaidId: "" // Add the missing property here
             }).returning()
 
-            console.log("data: ", data);
+            console.log("data due to post request: ", data);
 
             return c.json(
                 {   
