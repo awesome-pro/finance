@@ -83,9 +83,9 @@ function AccountForm(
                 {!!id && (
                     <Button
                     disabled={disabled}
-                    onClick={handleDelete}
-                    className='w-full bg-red-600 text-white hover:bg-red-700'
-                    variant={'destructive'}
+                    onClick={() => handleDelete()}
+                    className='w-full text-red-600 border-red-600 hover:text-white hover:bg-red-600'
+                    variant={'outline'}
                     >
                         <Trash className='size-4 mr-2'/>
                         Delete Account

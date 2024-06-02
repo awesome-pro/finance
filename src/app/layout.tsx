@@ -6,6 +6,7 @@ import { QueryPromise } from "drizzle-orm";
 import { QueryProviders } from "../../providers/query-provider";
 import SheetProvider from "../../providers/sheet-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { ToastProvider } from "@/components/ui/toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ export default function RootLayout({
             <SheetProvider/>
             <Toaster />
               {children}
+              <ToastProvider/>
           </QueryProviders>
         </body>
       </html>

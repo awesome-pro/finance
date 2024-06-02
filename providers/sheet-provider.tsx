@@ -3,13 +3,11 @@
 import { toast } from 'sonner';
 import React, { useEffect, useState } from 'react';
 import NewAccountSheet from '@/features/accounts/components/new-account-sheet';
+import EditAccountSheet from '@/features/accounts/components/edit-account-sheet';
+import { useMountedState } from 'react-use';
 
 function SheetProvider() {
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, [setIsMounted]);
+    const isMounted = useMountedState();
 
     if (!isMounted) {
         toast.error("Component is not mounted yet");
@@ -30,6 +28,7 @@ function SheetProvider() {
     return (
         <>
             <NewAccountSheet />
+            <EditAccountSheet/>
         </>
     );
 }
