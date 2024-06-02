@@ -19,10 +19,6 @@ const routes = [
   },
   {
     href: '/accounts',
-    label: "Overview"
-  },
-  {
-    href: '/accounts',
     label: "Accounts"
   },
   {
@@ -36,7 +32,7 @@ const routes = [
 ]
 
 
-function Navbar() {
+function  Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const pathname = usePathname();
