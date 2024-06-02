@@ -41,12 +41,14 @@ const app = new Hono()
             name: true
         })),
         async (c) => {
+            console.log(" POST request received :)")
+            console.log("c from post: ", c)
             const auth = getAuth(c);
-            console.log("auth: ", auth);
+            console.log("auth from post: ", auth);
             const values = c.req.valid("json");
-            console.log("values: ", values);
+            console.log("values from post: ", values);
 
-            if (!auth?.userId) {
+            if (!auth?.userId || !auth) {
                 return c.json({
                     error: "Unauthorized"
                 }, 401)
@@ -56,7 +58,6 @@ const app = new Hono()
                 id: createId(),
                 userId: auth.userId,
                 ...values,
-                plaidId: "" // Add the missing property here
             }).returning()
 
             console.log("data due to post request: ", data);

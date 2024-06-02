@@ -18,7 +18,7 @@ export default function Home() {
      
       <Button 
       onClick={() => {
-        toast.success("Button was clicked")
+        toast.success("Button was clicked 😀")
         //console.log("isOpen: ", isOpen)
         onOpen();
         //console.log("isOpen: ", isOpen)

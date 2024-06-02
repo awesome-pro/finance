@@ -1,28 +1,31 @@
 "use client";
 
 import { toast } from 'sonner';
-import React from 'react';
-import { useMountedState } from 'react-use';
+import React, { useEffect, useState } from 'react';
 import NewAccountSheet from '@/features/accounts/components/new-account-sheet';
 
 function SheetProvider() {
-    
-    const isMounted = useMountedState();
+    const [isMounted, setIsMounted] = useState(false);
 
-    if (!isMounted() || isMounted === null) {
+    useEffect(() => {
+        setIsMounted(true);
+    }, [setIsMounted]);
 
-        toast.error("Mounted is null");
-        console.log("Mounted is null ")
+    if (!isMounted) {
+        toast.error("Component is not mounted yet");
+        console.log("Component is not mounted yet");
 
         return (
-            <div className='bg-blue-600 p-8 w-1/2 h-full'>
-                
+            <div className='bg-teal-600 p-8 w-1/2 h-full'>
+                <h1>
+                    Mounted yet null
+                </h1>
             </div>
-        )
+        );
     }
 
-    console.log("Mounted is not null")
-    toast.info("Mounted is not null");
+    console.log("Component is mounted");
+    toast.info("Component is mounted");
 
     return (
         <>

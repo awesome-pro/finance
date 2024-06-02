@@ -39,10 +39,9 @@ function AccountForm(
     });
 
     const handleSubmit = (values: FormValues) => {
-        console.log("values are here: " + values)
+        console.log("values are here from form: " + values)
         toast.info('Creating Account');
         onSubmit(values);
-        
     }
 
     const handleDelete = () => {
@@ -73,7 +72,7 @@ function AccountForm(
                 />
 
                 <Button 
-                className='w-full' 
+                className='w-full bg-blue-600 text-white hover:bg-blue-700' 
                 disabled={disabled}
                 type='submit'
                 onClick={form.handleSubmit(handleSubmit)}

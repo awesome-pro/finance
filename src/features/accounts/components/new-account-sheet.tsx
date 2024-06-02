@@ -8,7 +8,6 @@ import {
     SheetDescription,
     SheetHeader,
     SheetTitle,
-    SheetTrigger,
   } from "@/components/ui/sheet"
 import { useNewAccount } from '../hooks/use-new-account'
 import AccountForm from './account-form';
@@ -41,6 +40,9 @@ function NewAccountSheet() {
             onClose();
             toast.error('Failed to create account');
             console.error(error);
+          },
+          onSettled: () => {
+            console.log('onSettled')
           }
         });
         
@@ -59,7 +61,7 @@ function NewAccountSheet() {
             </SheetDescription>
             </SheetHeader>
             <AccountForm 
-            onSubmit={() => {onSubmit}}
+            onSubmit={onSubmit}
             disabled={mutation.isPending}
             defaultValues={{
               name: ''
