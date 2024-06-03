@@ -4,32 +4,51 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { insertAccountsSchema } from '../../../db/schema'
+import { insertTransactionsSchema } from '../../../db/schema'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { Trash } from 'lucide-react'
 import { toast } from 'sonner'
+import Select from '@/components/select'
 
-const formSchema = insertAccountsSchema.pick({
-    name: true
-});
+const formSchema = z.object({
+    date: z.coerce.date(),
+    accountId: z.string(),
+    categoryId: z.string().nullable().optional(),
+    payee: z.string(),
+    amount: z.string(),
+    notes: z.string().nullable().optional()
+})
+
+const apiSchema = insertTransactionsSchema.omit({
+    id:true
+})
 
 type FormValues = z.infer<typeof formSchema>
+type ApiFormValues = z.infer<typeof apiSchema>
 
 type Props = {
     id?: string
     defaultValues?: FormValues;
-    onSubmit: (values: FormValues) => void;
+    onSubmit: (values: ApiFormValues) => void;
     onDelete?: () => void;
     disabled?: boolean;
+    accountOptions: { label: string; value: string}[];
+    categoryOptions: { label: string; value: string}[];
+    onCreateAccount: (name: string) => void;
+    onCreateCategory: (name: string) => void;
 }
 
-function AccountForm(
+function TransactionForm(
     {
         id,
         defaultValues,
         onSubmit,
         onDelete,
-        disabled 
+        disabled,
+        accountOptions,
+        categoryOptions,
+        onCreateAccount,
+        onCreateCategory 
     } : Props
 ) {
 
@@ -40,8 +59,8 @@ function AccountForm(
 
     const handleSubmit = (values: FormValues) => {
         console.log("values are here from form: " + values)
-        toast.info('Creating Account');
-        onSubmit(values);
+        toast.info('Creating Transaction');
+       
     }
 
     const handleDelete = () => {
@@ -53,18 +72,43 @@ function AccountForm(
         <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4 pt-4'>
                 <FormField
-                name='name'
+                name='accountId'
                 control={form.control}
                 render={({field}) => (
                     <FormItem>
                         <FormLabel>
-                            Name
+                            Account
                         </FormLabel>
                         <FormControl>
-                            <Input
+                            <Select
+                            placeholder='Select an Account'
+                            options={accountOptions}
+                            onCreate={onCreateAccount}
+                            value={field.value}
+                            onChange={field.onChange}
                             disabled={disabled}
-                            placeholder='e.g. Cash'
-                            {...field}
+                            />
+                        </FormControl>
+                    </FormItem>
+                )}
+                />
+
+                <FormField
+                name='categoryId'
+                control={form.control}
+                render={({field}) => (
+                    <FormItem>
+                        <FormLabel>
+                            Category
+                        </FormLabel>
+                        <FormControl>
+                            <Select
+                            placeholder='Select a Category'
+                            options={categoryOptions}
+                            onCreate={onCreateCategory}
+                            value={field.value}
+                            onChange={field.onChange}
+                            disabled={disabled}
                             />
                         </FormControl>
                     </FormItem>
@@ -77,7 +121,7 @@ function AccountForm(
                 type='submit'
                 onClick={form.handleSubmit(handleSubmit)}
                 >
-                    {id ? "Save Changes" : "Create Account" }
+                    {id ? "Save Changes" : "Create Transaction" }
                 </Button>
                 
                 {!!id && (
@@ -89,7 +133,7 @@ function AccountForm(
                     type='button'
                     >
                         <Trash className='size-4 mr-2'/>
-                        Delete Account
+                        Delete Transaction
                     </Button>
                 )}
             </form>
@@ -98,4 +142,4 @@ function AccountForm(
   )
 }
 
-export default AccountForm
+export default TransactionForm

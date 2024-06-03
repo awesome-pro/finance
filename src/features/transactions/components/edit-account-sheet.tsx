@@ -10,7 +10,7 @@ import {
     SheetTitle,
   } from "@/components/ui/sheet"
 
-import AccountForm from './account-form';
+import AccountForm from './transaction-form';
 import { insertAccountsSchema } from '../../../db/schema';
 import { useOpenAccount } from '@/features/accounts/hooks/use-open-account';
 import { useGetAccount } from '@/features/accounts/api/use-get-account';
