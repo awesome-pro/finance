@@ -47,7 +47,7 @@ function EditCategorysheet() {
 
     const onSubmit = (values: FormValues) => {
         toast.info('Creating category');
-        console.log("values: " + {values});
+        console.log(values);
         
         editMutation.mutate(values, {
           onSuccess: () => {

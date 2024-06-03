@@ -39,9 +39,13 @@ const app = new Hono()
                     ? parse(to, "yyyy-MM-dd", new Date())
                     :  defaultTo
 
+            console.log("startDate: " + startDate)
+            console.log("toDate: " + toDate)
+
             const data = await db
                 .select({
                     id: transactions.id,
+                    date: transactions.date,
                     category: categories.name,
                     categoryId: transactions.categoryId,
                     payee: transactions.payee,

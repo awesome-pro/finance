@@ -34,6 +34,8 @@ export const useEditAccount = (id?: string) => {
             console.log("Account edited successfully");
             queryClient.invalidateQueries({ queryKey: ["account", { id }]});
             queryClient.invalidateQueries({ queryKey: ["accounts"]});
+            queryClient.invalidateQueries({ queryKey: ["transactions"]})
+            queryClient.invalidateQueries({ queryKey: ["categories"]})
             //TODO: invalidate summary and transactions
         },
         onError: (error) => {
