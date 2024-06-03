@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import { db } from "../../../db/drizzle";
-import { transactions, insertTransactionsSchema } from "@/db/schema";
+import { transactions, insertTransactionsSchema, categories, accounts } from "@/db/schema";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
-import { eq, and, inArray } from "drizzle-orm";
+import { eq, and, inArray, gte, lte, desc, sql } from "drizzle-orm";
 import { zValidator } from "@hono/zod-validator";
 import { createId } from "@paralleldrive/cuid2"
 import * as z from "zod"
@@ -20,12 +20,13 @@ const app = new Hono()
         async (c) => {
             const auth = getAuth(c);
             console.log("auth: ", auth);
-            const { from, to, accountId} = c.req.valid("query")
+            const { from, to, accountId } = c.req.valid("query")
 
             if(!auth?.userId || !auth){              
                 return   c.json({
                              error: "Unauthorized"
-                         }, 401)          
+                         }, 401
+                        )          
              }
             
             const defaultTo = new Date();
@@ -34,17 +35,32 @@ const app = new Hono()
             const startDate = from 
                     ? parse(from, "yyyy-MM-dd", new Date())
                     :  defaultFrom
-            const toDate = from 
+            const toDate = to 
                     ? parse(to, "yyyy-MM-dd", new Date())
                     :  defaultTo
 
-
-
-            const data = await db.select({
-                id:transactions.id,
-                name:transactions.name
-            }).from(transactions)
-            .where(eq(transactions.userId, auth.userId));
+            const data = await db
+                .select({
+                    id: transactions.id,
+                    category: categories.name,
+                    categoryId: transactions.categoryId,
+                    payee: transactions.payee,
+                    amount: transactions.amount,
+                    notes: transactions.notes,
+                    account: accounts.name,
+                    accountId: transactions.accountId
+                })
+                .from(transactions)
+                .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+                .leftJoin(categories, eq(transactions.categoryId, categories.id))
+                .where(
+                    and(
+                        accountId ? eq(transactions.accountId, accountId) : undefined,
+                        eq(accounts.userId, auth.userId),
+                        gte(transactions.date, startDate),
+                        lte(transactions.date, toDate)
+                    )
+                ).orderBy(desc(transactions.date));
 
             console.log("data: ", data);
 
@@ -82,12 +98,18 @@ const app = new Hono()
             const [data] = await db
                 .select({
                     id: transactions.id,
-                    name: transactions.name
+                    date: transactions.date,
+                    categoryId: transactions.categoryId,
+                    payee: transactions.payee,
+                    amount: transactions.amount,
+                    notes: transactions.notes,
+                    accountId: transactions.accountId
                 })
                 .from(transactions)
+                .innerJoin(accounts, eq(transactions.accountId, accounts.id))
                 .where(
                     and(
-                        eq(transactions.userId, auth.userId),
+                        eq(accounts.userId, auth.userId),
                         eq(transactions.id, id)
                     )
                 )
@@ -104,13 +126,45 @@ const app = new Hono()
         }
     )
     .post(
+        "/bulk-create",
+        clerkMiddleware(),
+        zValidator(
+            "json",
+            z.array(
+                insertTransactionsSchema.omit({
+                    id:true
+                })
+            )
+        ),
+        async (c) => {
+            const auth = getAuth(c);
+            const values = c.req.valid("json")
+
+            if(!auth?.userId){
+                return c.json({ error: "Unauthorised" }, 401)
+            }
+
+            const  data = await db
+            .insert(transactions)
+            .values(
+                values.map((value) => ({
+                    id: createId(),
+                    ...value
+                }))
+            )
+            .returning()
+
+            return c.json({ data })
+        }
+    )
+    .post(
         "/",
         clerkMiddleware(),
-        zValidator("json", insertCategorySchema.pick({
-            name: true
+        zValidator("json", insertTransactionsSchema.omit({
+            id:true
         })),
         async (c) => {
-            console.log(" POST request received :)")
+            console.log("POST request received :)")
             console.log("c from post: ", c)
             const auth = getAuth(c);
             console.log("auth from post: ", auth);
@@ -125,7 +179,6 @@ const app = new Hono()
 
             const [data] = await db.insert(transactions).values({
                 id: createId(),
-                userId: auth.userId,
                 ...values,
             }).returning()
 
@@ -164,16 +217,26 @@ const app = new Hono()
                 )
             }
 
-            const data = await db
-                .delete(transactions)
+            const transactionsToDelete = db.$with("transaction_to_delete").as(
+                db.select({ id: transactions.id}).from(transactions)
+                .innerJoin(accounts, eq(transactions.accountId, accounts.id))
                 .where(
                     and(
-                        eq(transactions.userId, auth.userId),
-                        inArray(transactions.id, values.ids)
+                        inArray(transactions.id, values.ids),
+                        eq(accounts.userId, auth.userId)
                     )
+                )
+            )
+
+            const data = await db
+                .with(transactionsToDelete)
+                .delete(transactions)
+                .where(
+                    inArray(transactions.id, sql`(select id from ${transactionsToDelete})`)
                 ).returning({
-                    id: transactions.id
+                    id:transactions.id
                 })
+                
 
                 console.log("data: ", data)
 
@@ -193,8 +256,8 @@ const app = new Hono()
         ),
         zValidator(
             "json",
-            insertCategorySchema.pick({
-                name: true
+            insertTransactionsSchema.omit({
+                id:true,
             })
         ),
         async (c) => {
@@ -215,19 +278,30 @@ const app = new Hono()
                 return c.json({ error: "Unauthorised"}, 401)
             }
 
+            const transactionsToUpdate = db.$with("transaction_to_update").as(
+                db.select({ id: transactions.id})
+                .from(transactions)
+                .innerJoin(accounts, eq(transactions.accountId, accounts.id))
+                .where(
+                    and(
+                        eq(transactions.id, id),
+                        eq(accounts.userId, auth.userId)
+                    )
+                )
+            )
+
             const [data] = await db
+                .with(transactionsToUpdate)
                 .update(transactions)
                 .set(values)
                 .where(
-                    and(
-                        eq(transactions.userId, auth.userId),
-                        eq(transactions.id, id)
-                    )
+                    inArray(transactions.id, sql`(select id from ${transactionsToUpdate})`)
                 ).returning()
+                
 
             if(!data){
                 console.log("Not Found")
-                return c.json({ error: "Account Not found :("}, 404)
+                return c.json({ error: "Transaction Not found :("}, 404)
             }
 
             return c.json({ data });
@@ -259,16 +333,29 @@ const app = new Hono()
                 return c.json({ error: "Unauthorised"}, 401)
             }
 
-            const [data] = await db
-                .delete(transactions)
+            const transactionToDelete = db.$with("transaction_to_delete").as(
+                db.select({ id: transactions.id})
+                .from(transactions)
+                .innerJoin(accounts, eq(transactions.accountId, accounts.id))
                 .where(
                     and(
-                        eq(transactions.userId, auth.userId),
-                        eq(transactions.id, id)
+                        eq(transactions.id, id),
+                        eq(accounts.userId, auth.userId)
+                    )
+                )
+            )
+
+            const [data] = await db
+                .with(transactionToDelete)
+                .delete(transactions)
+                .where(
+                    inArray(
+                        transactions.id,
+                        sql`(select id from ${transactionToDelete})`
                     )
                 ).returning({
-                    id: transactions.id
-                });
+                    id:transactions.id
+                })
 
             if(!data){
                 console.log("Not Found")
