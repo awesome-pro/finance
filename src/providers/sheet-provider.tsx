@@ -26,8 +26,8 @@ function SheetProvider() {
         );
     }
 
-    console.log("Component is mounted");
-    toast.info("Component is mounted");
+    //console.log("Component is mounted");
+    //toast.info("Component is mounted");
 
     return (
         <>
@@ -38,7 +38,7 @@ function SheetProvider() {
             <EditCategorysheet/>
 
             <NewTransactionSheet/>
-            <EditAccountSheet/>
+            <EditTransactionSheet/>
         </>
     );
 }

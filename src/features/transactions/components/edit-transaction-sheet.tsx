@@ -20,6 +20,11 @@ import { useConfirm } from '@/hooks/use-confirm';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Loader2 } from 'lucide-react';
 import { z } from 'zod';
+import { useGetCategories } from '@/features/categories/api/use-get-categories';
+import { useCreateCategory } from '@/features/categories/api/use-create-category';
+import { useGetAccounts } from '@/features/accounts/api/use-get-accounts';
+import { useCreateAccount } from '@/features/accounts/api/use-create-account';
+
 
 const formSchema = insertTransactionsSchema.omit({
   id: true
@@ -37,9 +42,6 @@ function EditTransactionSheet() {
   const transactionQuery = useGetTransaction(id);
   const editMutation = useEditTransaction(id);
   const deleteMutation = useDeleteTransaction(id);
-
-  const isLoading = transactionQuery.isLoading;
-  const isPending = editMutation.isPending || deleteMutation.isPending;
 
   const onSubmit = (values: FormValues) => {
     toast.info('Editing Transaction');
@@ -72,6 +74,39 @@ function EditTransactionSheet() {
       });
     }
   };
+
+
+    const categoryQuery = useGetCategories();
+    const categoryMutation = useCreateCategory();
+    const onCreateCategory = (name: string) => categoryMutation.mutate({
+      name: name
+    })
+    const categoryOptions = (categoryQuery.data ?? []).map((category) => ({
+      label: category.name,
+      value: category.id
+    }))
+
+    const accountQuery = useGetAccounts();
+    const accountMutation = useCreateAccount();
+    const onCreateAccount = (name: string) => accountMutation.mutate({
+      name: name
+    })
+    const accountOptions = (accountQuery.data ?? []).map((account) => ({
+      label: account.name,
+      value: account.id
+    }))
+
+    const isPending = categoryMutation.isPending 
+      || categoryMutation.isPending
+      || accountMutation.isPending
+      || transactionQuery.isPending
+      || categoryMutation.isPending
+      || accountMutation.isPending
+
+    const isLoading = 
+          categoryQuery.isLoading 
+        || accountQuery.isLoading 
+        || transactionQuery.isLoading
 
   const defaultValues = transactionQuery.data ? {
     accountId: transactionQuery.data.accountId,
@@ -109,12 +144,16 @@ function EditTransactionSheet() {
                 <Loader2 className='size-4 text-muted-foreground animate-spin'/>
               </div>
             ) : (
-              <TransactionForm 
-                id={id}
-                onSubmit={onSubmit}
-                disabled={isPending}
-                defaultValues={defaultValues}
-                onDelete={onDelete}
+              <TransactionForm
+               id={id}
+               onSubmit={onSubmit}
+               defaultValues={defaultValues}
+               disabled={isPending}
+               categoryOptions={categoryOptions}
+               onCreateCategory={onCreateCategory}
+               accountOptions={accountOptions}
+               onCreateAccount={onCreateAccount}
+               onDelete={onDelete}
               />
             )
           }
