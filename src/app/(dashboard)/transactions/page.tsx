@@ -87,7 +87,7 @@ function TransactionPage() {
       })
     }
 
-    if(transactionsQuery.isLoading){
+    if(transactionsQuery.isLoading || transactionsQuery.isPending){
       return (
         <div className='max-w-screen-2xl lg:mx-32 mx-3 pb-10 -mt-24'>
           <Card className='border-none drop-shadow-sm'>

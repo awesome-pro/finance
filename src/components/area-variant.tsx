@@ -24,7 +24,7 @@ function AreaVariant(
     }: Props
 ) {
   return (
-    <ResponsiveContainer height={350} className="w-full" width={800}>
+    <ResponsiveContainer height={350} className="w-full" width={600}>
         <AreaChart data={data} >
             <CartesianGrid strokeDasharray="3 3"/>
             <defs>

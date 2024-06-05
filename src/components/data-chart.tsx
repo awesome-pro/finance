@@ -3,16 +3,29 @@
 import { useGetSummary } from '@/features/summary/use-get-summary'
 import { Loader2 } from 'lucide-react';
 import React from 'react'
-import Chart from './chart';
+import Chart, { ChartLoading } from './chart';
+import SpendingPie, { SpendingPieLoading } from './spending-pie';
 
 
 function DataChart() {
-   const { isLoading, data} = useGetSummary()
+   const { isLoading, data, isPending, isError} = useGetSummary()
 
-    if(isLoading){
+    if(isLoading || isPending){
+        return (
+            <div className='grid grid-cols-1 lg:grid-cols-6 gap-8'>
+                <div className=' col-span-1 lg:col-span-3 xl:col-span-4'>
+                    <SpendingPieLoading/>
+                </div>
+                <div>
+                   <ChartLoading/>
+                </div>
+            </div>
+        )
+    }
+    if(isError){
         return (
             <div>
-                <Loader2 className=' animate-spin'/>
+                Oops! Something unexpected happened
             </div>
         )
     }
@@ -22,6 +35,11 @@ function DataChart() {
         <div className=' col-span-1 lg:col-span-3 xl:col-span-4'>
             <Chart
              data={data?.days}
+            />
+        </div>
+        <div>
+            <SpendingPie
+             data={data?.categories}
             />
         </div>
     </div>

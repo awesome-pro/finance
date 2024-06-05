@@ -14,10 +14,11 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-import { AreaChart, BarChart3, FileSearch, LineChart } from 'lucide-react';
+import { AreaChart, BarChart3, FileSearch, LineChart, LoaderPinwheel } from 'lucide-react';
 import AreaVariant from './area-variant';
 import BarVariant from './bar-variant';
 import LineVariant from './line-variant';
+import { Skeleton } from './ui/skeleton';
 
   
 type Props = {
@@ -103,3 +104,18 @@ function Chart(
 }
 
 export default Chart
+
+
+export const ChartLoading = () => {
+    return(
+        <Card className='border-none drop-shadow-sm flex flex-col items-center justify-center'>
+            <CardHeader className='flex space-y-2 lg:space-y-0 lg:flex-row lg:items-center justify-between gap-8'>
+                <Skeleton className='h-7 w-28'/>
+                <Skeleton className='h-7 w-full lg:w-[80px]'/>
+            </CardHeader>
+            <CardContent className='flex flex-col gap-y-4 items-center justify-center h-[350px] w-full'>
+                <Skeleton className='w-3/4 lg:w-[200px] h-[200px] lg:h-[300px]'/>
+            </CardContent>
+        </Card>
+    )
+}
