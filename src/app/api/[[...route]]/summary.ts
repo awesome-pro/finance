@@ -1,10 +1,10 @@
 import { db } from "@/db/drizzle";
-import { accounts, transactions } from "@/db/schema";
-import { calculatePercentageChange } from "@/lib/utils";
+import { accounts, categories, transactions } from "@/db/schema";
+import { calculatePercentageChange, fillMissingDays } from "@/lib/utils";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { zValidator } from "@hono/zod-validator";
 import { differenceInDays, parse, subDays } from "date-fns";
-import { and, eq, gte, lte, sql, sum } from "drizzle-orm";
+import { and, desc, eq, gte, lt, lte, sql, sum } from "drizzle-orm";
 import { Hono } from "hono";
 import * as z from "zod"
 
@@ -80,19 +80,93 @@ const app = new Hono()
 
         const [lastPeriod] = await fetchFinancialData(
             auth.userId,
-            startDate,
-            endDate
+            lastPeriodStart,
+            lastPeriodEnd
         )
         const incomeChange = calculatePercentageChange(currentPeriod.income, lastPeriod.income)
         const expensesChange = calculatePercentageChange(currentPeriod.expense, lastPeriod.expense)
         const remainingChange = calculatePercentageChange(currentPeriod.remaining, lastPeriod.remaining)
+        console.log("lasr remaining: ", lastPeriod.remaining)
+        console.log("current remaining: ", currentPeriod.remaining)
+
+        const category = await db
+            .select({
+                name: categories.name,
+                value: sql`SUM(ABS(${transactions.amount}))`.mapWith(Number)
+            }).from(transactions)
+            .innerJoin(
+                accounts,
+                eq(transactions.accountId, accounts.id)
+            ).innerJoin(
+                categories,
+                eq(transactions.categoryId, categories.id)
+            ).where(
+                and(
+                    accountId ? eq(transactions.accountId, accountId) : undefined,
+                    eq(accounts.userId, auth.userId),
+                    lt(transactions.amount, 0),
+                    gte(transactions.date, startDate),
+                    lte(transactions.date, endDate)
+                )
+            ).groupBy(categories.name)
+            .orderBy(
+                desc(sql`SUM(ABS(${transactions.amount}))`)
+            )
+
+            console.log(category)
+
+        const topCategories = category.slice(0, 3);
+        const otherCategories = category.slice(3);
+        const otherSum = otherCategories.reduce((sum, current) => sum + current.value, 0)
+        const finalcategories = topCategories;
+        console.log(topCategories)
+        console.log(otherCategories)
+        if(otherCategories.length > 0){
+            finalcategories.push({
+                name: "Other",
+                value: otherSum
+            })
+        }
+
+        const activeDays = await db
+            .select({
+                date: transactions.date,
+                income: sql`SUM(CASE WHEN ${transactions.amount} > 0 THEN ${transactions.amount} ELSE 0 END)`.mapWith(Number),
+                expenses: sql`SUM(CASE WHEN ${transactions.amount} < 0 THEN ABS(${transactions.amount}) ELSE 0 END)`.mapWith(Number)
+            })
+            .from(transactions)
+            .innerJoin(
+                accounts,
+                eq(transactions.accountId, accounts.id)
+            )
+            .where(
+                and(
+                    accountId ? eq(transactions.accountId, accountId) : undefined,
+                    eq(accounts.userId, auth.userId),
+                    gte(transactions.date, startDate),
+                    lte(transactions.date, endDate)
+                )
+            )
+            .groupBy(transactions.date)
+            .orderBy(transactions.date)
+
+        const days = fillMissingDays(
+            activeDays,
+            startDate,
+            endDate
+        )
 
         return c.json({
-            currentPeriod: currentPeriod,
-            lastPeriod: lastPeriod,
-            incomeChange: incomeChange,
-            expensesChange: expensesChange,
-            remainingChange: remainingChange
+            data: {
+                remainingAmount: currentPeriod.remaining,
+                remainingChange: remainingChange,
+                incomeAmount: currentPeriod.income,
+                incomeChange: incomeChange,
+                expenseAmount: currentPeriod.income,
+                expensesChange: expensesChange,
+                categories: finalcategories,
+                days: days
+            }
         })
 
     }
