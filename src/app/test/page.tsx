@@ -1,5 +1,6 @@
 "use client"
 
+import Skip from '@/components/skip';
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast';
 import Image from 'next/image';
@@ -12,7 +13,7 @@ function Test() {
   return (
     <div>
       
-     {/* <Footer /> */}
+     <Skip/>
      
     </div>
   )
