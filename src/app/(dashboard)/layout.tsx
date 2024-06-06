@@ -1,4 +1,5 @@
 import Header from '@/components/Header'
+import Footer from '@/components/footer'
 import React from 'react'
 
 type DashBoardLayoutProps = {
@@ -12,6 +13,7 @@ function DashBoardLayout({children}: DashBoardLayoutProps) {
         <div className='px-0 lg:px-0'>
             <Header/>
             {children}
+            <Footer/>
         </div>
     </>
   )

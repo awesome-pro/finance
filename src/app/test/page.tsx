@@ -2,7 +2,9 @@
 
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast';
+import Image from 'next/image';
 import React from 'react'
+import { Footer } from 'react-day-picker';
 
 function Test() {
 
@@ -10,18 +12,8 @@ function Test() {
   return (
     <div>
       
-      <Button
-       onClick={() => {
-          toast({
-            title: "Success",
-            description: "This is a success toast",
-            variant: "success",
-          })
-        }
-       }
-      >
-        Click me
-      </Button>
+     {/* <Footer /> */}
+     
     </div>
   )
 }

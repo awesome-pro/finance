@@ -7,6 +7,7 @@ import SheetProvider from "../providers/sheet-provider";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
+import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes';
 
 export const metadata: Metadata = {
   title: "Welcome to SBI",
@@ -19,7 +20,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+     appearance={{
+      variables: { 
+        colorPrimary: 'blue',
+        colorNeutral: 'blue',
+        colorDanger: 'red',
+        colorShimmer: 'blue',
+      }
+    }}
+    >
       <html lang="en">
         <body className={inter.className}>
           <QueryProviders>
