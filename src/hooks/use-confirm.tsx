@@ -47,15 +47,18 @@ import {
                         {message}
                     </DialogDescription>
                 </DialogHeader>
-                <DialogFooter className="pt-2">
+                <DialogFooter className="pt-2 gap-4">
                     <Button
                     onClick={handleCancel}
                     variant={'outline'}
+                    className="text-gray-500"
+                    size={'sm'}
                     >
                         Cancel
                     </Button>
                     <Button
                     onClick={handleConfirm}
+                    size={'sm'}
                     >
                         Confirm
                     </Button>
