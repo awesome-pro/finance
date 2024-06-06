@@ -34,6 +34,8 @@ export const useEditTransaction = (id?: string) => {
             console.log("transaction edited successfully");
             queryClient.invalidateQueries({ queryKey: ["Transaction", { id }]});
             queryClient.invalidateQueries({ queryKey: ["Transactions"]});
+            queryClient.invalidateQueries({ queryKey: ["Categories"]});
+            queryClient.invalidateQueries({ queryKey: ["accounts"]});
             queryClient.invalidateQueries({ queryKey: ["summary"]});
             //TODO: invalidate summary 
         },

@@ -25,7 +25,7 @@ function Skip() {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button className="w-32 rounded-3xl">
+                <Button className="w-32 rounded-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
                     Skip Auth 😅
                 </Button>
             </PopoverTrigger>

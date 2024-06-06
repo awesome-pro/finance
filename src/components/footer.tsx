@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
+import { Separator } from './ui/separator'
 
 
 const footerLinks = [
@@ -44,7 +45,7 @@ function Footer() {
             </Link>
           ))}
       </div>
-
+          <Separator className='w-full'/>
       <div className="flex items-center justify-center gap-5 py-5">
         <Image src="/logo.svg" alt="logo" width={20} height={20} />
           <p className='text-xl font-serif m-0 -ml-4'>

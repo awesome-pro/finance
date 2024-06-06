@@ -86,7 +86,7 @@ const app = new Hono()
         const incomeChange = calculatePercentageChange(currentPeriod.income, lastPeriod.income)
         const expensesChange = calculatePercentageChange(currentPeriod.expense, lastPeriod.expense)
         const remainingChange = calculatePercentageChange(currentPeriod.remaining, lastPeriod.remaining)
-        console.log("lasr remaining: ", lastPeriod.remaining)
+        console.log("last remaining: ", lastPeriod.remaining)
         console.log("current remaining: ", currentPeriod.remaining)
 
         const category = await db
@@ -113,7 +113,7 @@ const app = new Hono()
                 desc(sql`SUM(ABS(${transactions.amount}))`)
             )
 
-            console.log(category)
+            //console.log(category)
 
         const topCategories = category.slice(0, 3);
         const otherCategories = category.slice(3);

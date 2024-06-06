@@ -19,7 +19,7 @@ const app = new Hono()
         clerkMiddleware(),
         async (c) => {
             const auth = getAuth(c);
-            console.log("auth: ", auth);
+            //console.log("auth: ", auth);
             const { from, to, accountId } = c.req.valid("query")
 
             if(!auth?.userId || !auth){              
@@ -39,8 +39,8 @@ const app = new Hono()
                     ? parse(to, "yyyy-MM-dd", new Date())
                     :  defaultTo
 
-            console.log("startDate: " + startDate)
-            console.log("toDate: " + toDate)
+            //console.log("startDate: " + startDate)
+            //console.log("toDate: " + toDate)
 
             const data = await db
                 .select({
@@ -66,7 +66,7 @@ const app = new Hono()
                     )
                 ).orderBy(desc(transactions.date));
 
-            console.log("data: ", data);
+            //console.log("data: ", data);
 
             return c.json(
                 {   
@@ -82,7 +82,7 @@ const app = new Hono()
         })),
         async(c) => {
             const auth = getAuth(c);
-            console.log('auth: ' + auth)
+            //console.log('auth: ' + auth)
             const { id } = c.req.valid("param");
 
             if(!id){
@@ -168,12 +168,12 @@ const app = new Hono()
             id:true
         })),
         async (c) => {
-            console.log("POST request received :)")
-            console.log("c from post: ", c)
+            //console.log("POST request received :)")
+            //console.log("c from post: ", c)
             const auth = getAuth(c);
-            console.log("auth from post: ", auth);
+            //console.log("auth from post: ", auth);
             const values = c.req.valid("json");
-            console.log("values from post: ", values);
+            //console.log("values from post: ", values);
 
             if (!auth?.userId || !auth) {
                 return c.json({
@@ -186,7 +186,7 @@ const app = new Hono()
                 ...values,
             }).returning()
 
-            console.log("data due to post request: ", data);
+            //console.log("data due to post request: ", data);
 
             return c.json(
                 {   
@@ -205,14 +205,14 @@ const app = new Hono()
             })
         ),
         async (c)=> {
-            console.log("post method to delete")
+            //console.log("post method to delete")
             const auth = getAuth(c);
-            console.log(" auth: ", auth)
+            //console.log(" auth: ", auth)
             const values = c.req.valid("json");
-            console.log("values in delete POST: ", values)
+            //console.log("values in delete POST: ", values)
 
             if(!auth?.userId){
-                console.log(" Unautorised: ", auth?.userId)
+                //console.log(" Unautorised: ", auth?.userId)
                 return c.json(
                     {
                         "error": "Unauthorised!!"
@@ -242,7 +242,7 @@ const app = new Hono()
                 })
                 
 
-                console.log("data: ", data)
+                //console.log("data: ", data)
 
                 return c.json({
                     data
@@ -269,16 +269,16 @@ const app = new Hono()
             const  { id } = c.req.valid("param")
             const values = c.req.valid("json")
 
-            console.log("id in patch: ", id)
-            console.log("values in patch: ", values)
+            //console.log("id in patch: ", id)
+            //console.log("values in patch: ", values)
 
             if(!id){
-                console.log("Missing id")
+                //console.log("Missing id")
                 return c.json({ error: "Missing ID"}, 400)
             }
 
             if(!auth?.userId){
-                console.log("Unautorised")
+                //console.log("Unautorised")
                 return c.json({ error: "Unauthorised"}, 401)
             }
 
@@ -304,7 +304,7 @@ const app = new Hono()
                 
 
             if(!data){
-                console.log("Not Found")
+                //console.log("Not Found")
                 return c.json({ error: "Transaction Not found :("}, 404)
             }
 
@@ -325,15 +325,15 @@ const app = new Hono()
             const auth = getAuth(c);
             const  { id } = c.req.valid("param")
            
-            console.log("id in delete: ", id)
+            //console.log("id in delete: ", id)
 
             if(!id){
-                console.log("Missing id")
+                //console.log("Missing id")
                 return c.json({ error: "Missing ID"}, 400)
             }
 
             if(!auth?.userId){
-                console.log("Unautorised")
+                //console.log("Unautorised")
                 return c.json({ error: "Unauthorised"}, 401)
             }
 
@@ -362,7 +362,7 @@ const app = new Hono()
                 })
 
             if(!data){
-                console.log("Not Found")
+                //console.log("Not Found")
                 return c.json({ error: "Account Not found :("}, 404)
             }
 

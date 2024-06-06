@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import React from 'react'
+import { Separator } from "@/components/ui/separator"
 
 function Settings() {
   return (
@@ -9,6 +10,7 @@ function Settings() {
         <h1 className='my-10 text-4xl text-blue-600'>
             Development in progress, Diverse to other pages
         </h1>
+       
         <Image
          src={'/settings.png'}
          width={500}
