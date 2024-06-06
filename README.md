@@ -1,5 +1,6 @@
 <img src="/public/complete-logo.svg" width="200px">
 
+## Live Demo -> https://finance-seven-psi.vercel.app/
 
 Welcome to the unofficial repository of the SBI Banking Web App, a cutting-edge online banking solution designed to provide seamless and secure financial services. This application offers a range of services including payments, transactions, account management, and more. It leverages the latest technology stack to ensure robust performance, security, and scalability.
 
@@ -89,8 +90,12 @@ Our app includes comprehensive data visualization tools to help you track your f
 https://github.com/abhinandan-verma/finance/assets/147910430/7f0bc366-097b-42ba-aa73-53769afbc1f2
 
 ## Demo Images
-<img src='/public/screenshots/sc1.png' width="500px">
+<img src="/public/complete-logo.svg" width='250px' style='margin-[20px]'>
 <img src='/public/screenshots/sc3.png' width='500px'>
+<img src='/public/screenshots/sign-in.png' width='500px'>
+<img src='/public/screenshots/sc8.png' width='500px'>
+<img src='/public/screenshots/sc11.png' width='500px'>
+
 
 ## Contributing
 
