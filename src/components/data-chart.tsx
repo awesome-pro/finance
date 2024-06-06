@@ -31,13 +31,13 @@ function DataChart() {
     }
 
   return (
-    <div className='grid grid-cols-1 lg:grid-cols-6 gap-8'>
+    <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
         <div className=' col-span-1 lg:col-span-3 xl:col-span-4'>
             <Chart
              data={data?.days}
             />
         </div>
-        <div>
+        <div className=' col-span-1 lg:col-span-3 xl:col-span-4'>
             <SpendingPie
              data={data?.categories}
             />

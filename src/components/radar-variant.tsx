@@ -23,7 +23,7 @@ function RadarVariant(
     }: Props
 ) {
   return (
-    <ResponsiveContainer width={600} height={350}>
+    <ResponsiveContainer width={450} height={350}>
         <RadarChart
          cx={"50%"}
          cy={"50%"}

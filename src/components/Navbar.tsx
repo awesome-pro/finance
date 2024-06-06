@@ -4,9 +4,11 @@ import React from 'react'
 import NavButton from './NavButton'
 import { usePathname, useRouter } from 'next/navigation'
 import { useMedia } from 'react-use'
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from './ui/sheet'
 import { Button } from './ui/button'
-import { Menu } from 'lucide-react'
+import { CrossIcon, Menu } from 'lucide-react'
+import { CardHeader, CardTitle, Card } from './ui/card'
+import Image from 'next/image'
 
 const routes = [
   {
@@ -57,12 +59,23 @@ function  Navbar() {
           </Button>
         </SheetTrigger>
         <SheetContent side={'left'} className='px-2 bg-white'>
+          <Card className='bg-blue-600 px-2 items-center justify-normal flex mt-6'>
+            <CardHeader>
+              <Image
+                src={'/complete-logo.svg'}
+                alt='logo'
+                width={100}
+                height={100}
+              />
+            </CardHeader>
+          </Card>
           <nav className='flex flex-col gap-y-2 pt-6'>
             {routes.map((route) => (
               <Button
-              variant={route.href === pathname ? 'secondary' : 'ghost'}
+              variant={route.href === pathname ? 'default' : 'secondary'}
               key={route.href}
               onClick={() => onClick(route.href)}
+              className='w-full text-left px-2'
               >
                 {route.label}
               </Button>

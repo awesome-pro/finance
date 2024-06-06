@@ -25,7 +25,7 @@ function LineVariant(
     }: Props
 ) {
   return (
-    <ResponsiveContainer width={550} height={300}>
+    <ResponsiveContainer width="100%" height={350}>
         <LineChart data={data}>
             <CartesianGrid strokeDasharray={'3 3'}/>
             <XAxis

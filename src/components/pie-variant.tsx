@@ -29,7 +29,7 @@ function PieVariant(
     }: Props
 ) {
   return (
-    <ResponsiveContainer width={400} height={350}>
+    <ResponsiveContainer width={450} height={350}>
         <PieChart>
             <Legend 
              layout='horizontal'

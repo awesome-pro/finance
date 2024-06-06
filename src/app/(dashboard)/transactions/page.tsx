@@ -22,8 +22,9 @@ import UploadButton from './upload-button';
 import ImportCard from './import-card';
 import { transactions as transactionSchema } from '@/db/schema';
 import { useSelectAccount } from '@/features/accounts/hooks/use-select-account';
-import { toast } from 'sonner';
+import { toast as sonner } from 'sonner';
 import { useBulkCreateTransactions } from '@/features/transactions/api/use-bulk-create-transactions';
+import { useToast } from '@/components/ui/use-toast';
 
 enum VARIANTS {
   LIST = "LIST",
@@ -41,14 +42,23 @@ function TransactionPage() {
     const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
     const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS)
 
+    const  { toast } = useToast();
     const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
       console.log({ results })
       setImportResults(results);
+      toast({
+        title: "Import Success",
+        variant: "success"
+      })
       setVariant(VARIANTS.IMPORT);
     }
 
     const onCancelImport = () => {
       setImportResults(INITIAL_IMPORT_RESULTS);
+      toast({
+        title: "Import Cancelled",
+        variant: "destructive"
+      })
       setVariant(VARIANTS.LIST)
     }
 
@@ -67,7 +77,7 @@ function TransactionPage() {
       const accountId = await confirm();
 
       if(!accountId){
-        return toast.error("Please select an account to continue.")
+        return sonner.error("Please select an account to continue.")
       }
 
       const data = values.map((value) => ({
@@ -77,12 +87,19 @@ function TransactionPage() {
 
       bulkCreateTransactions.mutate(data, {
         onSuccess: () => {
-          toast.success("Transactions Created Successfully")
+         toast({
+            title: "Transactions created successfully",
+            variant: "success"
+         })
           onCancelImport();
         },
         onError: (error) => {
           console.log(error)
-          toast.error(error.message)
+         toast({
+            title: "Failed to create transactions",
+            description: "error: " + error.message,
+            variant: "destructive"
+         })
         } 
       })
     }
