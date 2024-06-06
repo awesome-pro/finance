@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { client } from "@/lib/hono";
+import { toast } from "sonner";
 
 export const useGetAccounts = () => {
     const query = useQuery({
@@ -14,6 +15,7 @@ export const useGetAccounts = () => {
 
             const { data } = await response.json();
             console.log("data from query: ", data)
+            toast.success("Accounts fetched successfully")
             return data;
         }
     })

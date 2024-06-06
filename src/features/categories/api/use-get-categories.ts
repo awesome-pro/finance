@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { client } from "@/lib/hono";
+import { toast } from "sonner";
 
 export const useGetCategories = () => {
     const query = useQuery({
@@ -14,6 +15,7 @@ export const useGetCategories = () => {
 
             const { data } = await response.json();
             console.log("data from query: ", data)
+            toast.success("Categories fetched successfully")
             return data;
         }
     })

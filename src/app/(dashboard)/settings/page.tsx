@@ -1,4 +1,5 @@
-import Image from 'next/image'
+import Image from "next/image"
+import { AspectRatio } from "@/components/ui/aspect-ratio"
 import React from 'react'
 
 function Settings() {
@@ -10,10 +11,13 @@ function Settings() {
         </h1>
         <Image
          src={'/settings.png'}
-         width={400}
-         height={400}
+         width={500}
+         height={500}
          alt="Under construction"
+         className=" animate-pulse"
         />
+        
+
     </div>
   )
 }
