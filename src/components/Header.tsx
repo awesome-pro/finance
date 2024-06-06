@@ -5,6 +5,7 @@ import { UserButton, ClerkLoading, ClerkLoaded } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import WelcomeMsg from './WelcomeMsg'
 import Filter from './filter'
+import GithubLink from './github'
 
 function Header() {
   return (
@@ -14,6 +15,7 @@ function Header() {
                 <div className='flex items-center lg:gap-x-16'>
                     <HeaderLogo/>
                     <Navbar/>
+                    <GithubLink/>
                 </div>
                <ClerkLoaded>
                     <UserButton afterSignOutUrl='/' />

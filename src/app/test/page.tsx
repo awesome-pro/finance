@@ -1,5 +1,6 @@
 "use client"
 
+import GithubLink from '@/components/github';
 import Skip from '@/components/skip';
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast';
@@ -13,7 +14,7 @@ function Test() {
   return (
     <div>
       
-     <Skip/>
+    <GithubLink/>
      
     </div>
   )

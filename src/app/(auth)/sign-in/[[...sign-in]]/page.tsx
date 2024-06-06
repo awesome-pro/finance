@@ -1,3 +1,4 @@
+import GithubLink from "@/components/github";
 import Skip from "@/components/skip";
 import { SignIn, ClerkLoaded, ClerkLoading } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
@@ -36,7 +37,10 @@ export default function Page() {
         
       </div>
      
-        <Skip/>
+      <div className="flex items-center justify-around gap-6 w-full my-5">
+          <Skip/>
+          <GithubLink/>
+      </div>
      
     </div>
     <div className="h-full bg-blue-600 hidden lg:flex items-center justify-center">
