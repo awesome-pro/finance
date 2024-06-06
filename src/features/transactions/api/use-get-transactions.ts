@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { client } from "@/lib/hono";
 import { useSearchParams } from "next/navigation";
-import { convertAmountFromMilliUnits } from "@/lib/utils";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 
 export const useGetTransactions = () => {
@@ -11,10 +10,9 @@ export const useGetTransactions = () => {
     const from = params.get("from") || ""
     const to = params.get("to") || ""
     const accountId = params.get("accountId") || ""
-    const { toast } = useToast();
 
     const query = useQuery({
-        queryKey: ["transactions", { from , to , accountId }],
+        queryKey: ["Transactions", { from , to , accountId }],
         queryFn: async() => {
             const response = await client.api.transactions.$get({
                 query: {
@@ -24,28 +22,17 @@ export const useGetTransactions = () => {
                 }
             });
 
-            if(!response.ok || !response){
+            if(!response.ok){
                 console.log("error in getting transactions: " + response.statusText)
-                toast({
-                    title: "Error",
-                    description: "Error in getting transactions",
-                    variant: "destructive"
-                })
+                toast.error("Error in getting transactions")
                 throw new Error(response.statusText + " - " + response.body);
             }
 
             const { data } = await response.json();
-
-            console.log("data from query: ", data)
-            toast({
-                title: "Success",
-                description: "data" + [data],
-                variant: "success"
-            })
-            return data.map((transaction) => ({
-                ...transaction,
-                amount: convertAmountFromMilliUnits(transaction.amount)
-            }))
+            
+            console.log( data)
+            toast.success("Transactions fetched successfully")
+            return data;
         }
     })
 

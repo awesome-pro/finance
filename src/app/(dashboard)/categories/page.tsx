@@ -39,11 +39,14 @@ function CategoryPage() {
           <Card className='border-none drop-shadow-sm'>
             <CardHeader className='gap-y-2 lg:flex-row lg:items-center lg:justify-between'>
                 <Skeleton className='h-8 w-48'/>
-                <Skeleton className='w-48 h-10'/>
+                <Skeleton className='w-48 h-8'/>
             </CardHeader>
-            <CardContent className='lg:px-auto lg:mx-auto -m-4'>
-              <div className='h-[500px] w-full flex items-center justify-center'>
-                <Loader2 className='animate-spin size-6 text-slate-300'/>
+            <CardContent className='lg:px-auto lg:mx-auto mt-10 '>
+              <div className='h-[500px] w-full flex flex-col items-start justify-start gap-4'>
+                <Skeleton className='h-8 w-1/2 px-5'/>
+                <Skeleton className='h-8 w-full px-5'/>
+                <Skeleton className='h-8 w-full px-5'/>
+                <Skeleton className='h-8 w-full px-5'/>
               </div>
             </CardContent>
         </Card>

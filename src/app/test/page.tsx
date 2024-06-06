@@ -1,4 +1,5 @@
-"use cl"
+"use client"
+
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast';
 import React from 'react'
@@ -14,7 +15,7 @@ function Test() {
           toast({
             title: "Success",
             description: "This is a success toast",
-            variant: "success"
+            variant: "success",
           })
         }
        }

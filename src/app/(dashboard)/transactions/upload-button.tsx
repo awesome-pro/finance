@@ -26,7 +26,7 @@ function UploadButton(
              variant={'outline'}
             >
                 <Upload className='size-4 mr-2'/>
-                Import
+                Import CSV
             </Button>
         )}
     </CSVReader>

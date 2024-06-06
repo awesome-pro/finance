@@ -5,7 +5,7 @@ import { convertAmountFromMilliUnits } from "@/lib/utils";
 export const useGetTransaction = (id?: string) => {
     const query = useQuery({
         enabled: !!id,
-        queryKey: ["transaction", { id }],
+        queryKey: ["Transaction", { id }],
         queryFn: async() => {
             const response = await client.api.transactions[":id"].$get({
                 param: ({ id })

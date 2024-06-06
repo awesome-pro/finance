@@ -53,7 +53,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         success: {
-          DEFAULT: "#00d062",
+          DEFAULT: "#10ff62",
           foreground: "hsl(var(--success-foreground))",
         }
       },

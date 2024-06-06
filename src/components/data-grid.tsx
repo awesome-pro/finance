@@ -6,6 +6,7 @@ import React from 'react'
 import { FaPiggyBank } from "react-icons/fa"
 import { FaArrowTrendDown, FaArrowTrendUp} from "react-icons/fa6"
 import DataCard, { DataCardLoading } from './data-card';
+import { useToast } from './ui/use-toast';
 
 function DataGrid() {
 
@@ -16,6 +17,8 @@ function DataGrid() {
     const { data, isLoading } = useGetSummary();
 
     const dateRangeLabel = formatDateRange({ to, from })
+
+    const { toast} = useToast();
 
     if(isLoading){
         return (
@@ -53,6 +56,7 @@ function DataGrid() {
          variant='danger'
          dateRange={dateRangeLabel}
         />
+        
     </div>
   )
 }
