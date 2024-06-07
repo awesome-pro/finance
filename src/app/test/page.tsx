@@ -14,7 +14,7 @@ function Test() {
   return (
     <div>
       
-    <GithubLink/>
+  
      
     </div>
   )
