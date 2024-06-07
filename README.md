@@ -2,7 +2,7 @@
 
 # SBI Banking Web App
 
-## Live Demo -> [https://finance-seven-psi.vercel.app/](https://finance-seven-psi.vercel.app/)
+## [Live Demo](https://finance-seven-psi.vercel.app/)
 
 Welcome to the **UNOFFICIAL** repository of the SBI Banking Web App, a cutting-edge online banking solution designed to provide seamless and secure financial services. This application offers a range of services including payments, transactions, account management, and more. It leverages the latest technology stack to ensure robust performance, security, and scalability.
 
@@ -10,7 +10,7 @@ Welcome to the **UNOFFICIAL** repository of the SBI Banking Web App, a cutting-e
 
 - [](#)
 - [SBI Banking Web App](#sbi-banking-web-app)
-  - [Live Demo -\> https://finance-seven-psi.vercel.app/](#live-demo---httpsfinance-seven-psivercelapp)
+  - [Live Demo](#live-demo)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Tech Stack](#tech-stack)
@@ -102,11 +102,13 @@ https://github.com/abhinandan-verma/finance/assets/147910430/7f0bc366-097b-42ba-
 ![Screenshot](/public/screenshots/sc11.png)
 
 ## Mobile View
-![Mobile View](/public/mobile/sc3.jpeg)
-![Mobile View](/public/mobile/sc4.jpeg)
-![Mobile View](/public/mobile/sc8.jpeg)
-![Mobile View](/public/mobile/sc7.jpeg)
 
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+    <img src="/public/mobile/sc3.jpeg" alt="Mobile View" style="width: 50%;">
+    <img src="/public/mobile/sc4.jpeg" alt="Mobile View" style="width: 50%;">
+    <img src="/public/mobile/sc8.jpeg" alt="Mobile View" style="width: 50%;">
+    <img src="/public/mobile/sc7.jpeg" alt="Mobile View" style="width: 50%;">
+</div>
 
 ## Contributing
 
