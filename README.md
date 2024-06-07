@@ -1,16 +1,16 @@
 # ![SBI Banking Web App](/public/complete-logo.svg)
 
-# SBI Banking Web App
+# Finance Banking Web App
 
-## [Live Demo - Click Here](https://finance-seven-psi.vercel.app/)
+## Live Demo -> https://finance-seven-psi.vercel.app/
 
 Welcome to the **UNOFFICIAL** repository of the SBI Banking Web App, a cutting-edge online banking solution designed to provide seamless and secure financial services. This application offers a range of services including payments, transactions, account management, and more. It leverages the latest technology stack to ensure robust performance, security, and scalability.
 
 ## Table of Contents
 
 - [](#)
-- [SBI Banking Web App](#sbi-banking-web-app)
-  - [Live Demo - Click Here](#live-demo---click-here)
+- [Finance Banking Web App](#finance-banking-web-app)
+  - [Live Demo -\> https://finance-seven-psi.vercel.app/](#live-demo---httpsfinance-seven-psivercelapp)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Tech Stack](#tech-stack)
@@ -104,10 +104,10 @@ https://github.com/abhinandan-verma/finance/assets/147910430/7f0bc366-097b-42ba-
 ## Mobile View
 
 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-    <img src="/public/mobile/sc3.jpeg" alt="Mobile View" style="width: 50%;">
-    <img src="/public/mobile/sc4.jpeg" alt="Mobile View" style="width: 50%;">
-    <img src="/public/mobile/sc8.jpeg" alt="Mobile View" style="width: 50%;">
-    <img src="/public/mobile/sc7.jpeg" alt="Mobile View" style="width: 50%;">
+    <img src="/public/mobile/sc3.jpeg" alt="Mobile View" height="420px">
+    <img src="/public/mobile/sc4.jpeg" alt="Mobile View" height="420px">
+    <img src="/public/mobile/sc8.jpeg" alt="Mobile View" height="420px">
+    <img src="/public/mobile/sc7.jpeg" alt="Mobile View" height="420px">
 </div>
 
 ## Contributing
