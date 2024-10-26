@@ -38,7 +38,7 @@ export default function Page() {
       </div>
      
       <div className="flex items-center justify-around gap-6 w-full my-5">
-          <Skip/>
+{/*           <Skip/> */}
           <GithubLink/>
       </div>
      
